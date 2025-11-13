@@ -1,0 +1,225 @@
+<div class="page-container fade-in">
+  <!-- Celebration Animation -->
+  @if (showCelebration()) {
+    <div class="celebration-overlay">
+      <div class="celebration-content">
+        <div class="celebration-icon">🎉</div>
+        <h2>Congratulations!</h2>
+        <p>You won in {{ attemptsCount() }} attempts!</p>
+      </div>
+    </div>
+  }
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Game Controls -->
+      <div class="col-12 col-xl-8">
+        <mat-card class="app-card card-primary game-card">
+          <mat-card-header>
+            <mat-card-title>
+              🎲 Guess the Number Game
+            </mat-card-title>
+            <mat-card-subtitle>
+              @if (isGameActive()) {
+                Guess a number between {{ currentGame()!.minRange }} and {{ currentGame()!.maxRange }}!
+              } @else {
+                Guess a number and test your luck!
+              }
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            @if (error()) {
+              <div class="app-alert alert-danger">
+                {{ error() }}
+              </div>
+            }
+
+            @if (gameMessage()) {
+              <div class="app-alert alert-info">
+                {{ gameMessage() }}
+              </div>
+            }
+
+            <!-- New Game Form -->
+            @if (!isGameActive()) {
+              <div class="new-game-section">
+                <h5>Start New Game</h5>
+                <form [formGroup]="newGameForm" (ngSubmit)="startNewGame()">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Difficulty</mat-label>
+                        <mat-select formControlName="difficulty">
+                          <mat-option [value]="GameDifficulty.Easy">Easy</mat-option>
+                          <mat-option [value]="GameDifficulty.Medium">Medium</mat-option>
+                          <mat-option [value]="GameDifficulty.Hard">Hard</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <button mat-raised-button 
+                              color="primary" 
+                              type="submit"
+                              [disabled]="loading()"
+                              class="w-100 start-game-btn">
+                        @if (loading()) {
+                          <mat-spinner diameter="20" class="me-2"></mat-spinner>
+                        }
+                        Start New Game
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            }
+
+            <!-- Active Game -->
+            @if (isGameActive()) {
+              <div class="active-game-section">
+                <div class="game-info mb-4">
+                  <div class="row text-center">
+                    <div class="col-md-4">
+                      <div class="stat-card">
+                        <h6>Difficulty</h6>
+                        <span class="badge badge-primary">{{ getDifficultyName(currentGame()!.difficulty) }}</span>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="stat-card">
+                        <h6>Attempts</h6>
+                        <span class="attempts-count">{{ attemptsCount() }}</span>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="stat-card">
+                        <h6>Status</h6>
+                        <span class="badge badge-success">In Progress</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <form [formGroup]="guessForm" (ngSubmit)="makeGuess()" class="guess-form">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Your Guess ({{ currentGame()!.minRange }}-{{ currentGame()!.maxRange }})</mat-label>
+                        <input matInput 
+                               type="number"
+                               [min]="currentGame()!.minRange"
+                               [max]="currentGame()!.maxRange"
+                               formControlName="guessedNumber"
+                               placeholder="Enter your guess">
+                        <div matSuffix>💡</div>
+                        @if (guessForm.get('guessedNumber')?.invalid && guessForm.get('guessedNumber')?.touched) {
+                          <mat-error>Please enter a number between {{ currentGame()!.minRange }} and {{ currentGame()!.maxRange }}</mat-error>
+                        }
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <button mat-raised-button 
+                              color="accent"
+                              type="submit"
+                              [disabled]="guessForm.invalid || loading()"
+                              class="w-100 guess-btn">
+                        @if (loading()) {
+                          <mat-spinner diameter="20" class="me-2"></mat-spinner>
+                        }
+                        Make Guess
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            }
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Game Attempts History -->
+        @if (currentGame()?.attempts && currentGame()!.attempts.length > 0 && isGameActive()) {
+          <mat-card class="attempts-card mt-4">
+            <mat-card-header>
+              <mat-card-title>
+                📜 Your Attempts
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="attempts-list">
+                @for (attempt of currentGame()!.attempts; track attempt.id) {
+                  <div class="attempt-item">
+                    <div class="attempt-number">
+                      <span class="attempt-badge">{{ attempt.guessedNumber }}</span>
+                    </div>
+                    <div class="attempt-result">
+                      <span [class]="'result-icon ' + getResultColor(attempt.result)">
+                        {{ getResultIcon(attempt.result) }}
+                      </span>
+                      <span class="result-text">
+                        @if (attempt.hint) {
+                          {{ attempt.hint }}
+                        } @else {
+                          @switch (attempt.result) {
+                            @case (GuessResult.TooLow) { Too Low - Go Higher! }
+                            @case (GuessResult.TooHigh) { Too High - Go Lower! }
+                            @case (GuessResult.Correct) { Correct! }
+                          }
+                        }
+                      </span>
+                    </div>
+                    <div class="attempt-time">
+                      {{ attempt.attemptedAt | date:'short' }}
+                    </div>
+                  </div>
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-12 col-xl-4">
+        <mat-card class="app-card card-primary sidebar-card">
+          <mat-card-header>
+            <mat-card-title>
+              📊 Game Dashboard
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="dashboard-actions">
+              <button mat-raised-button 
+                      color="primary"
+                      (click)="navigateToStats()"
+                      class="w-100 mb-3">
+                📊 View Statistics
+              </button>
+              
+              <button mat-raised-button 
+                      (click)="navigateToHistory()"
+                      class="w-100 mb-3">
+                📜 Game History
+              </button>
+              
+              <mat-divider class="my-3"></mat-divider>
+              
+              <div class="game-rules">
+                <h6>How to Play:</h6>
+                <ul>
+                  @if (isGameActive()) {
+                    <li>Guess a number between {{ currentGame()!.minRange }} and {{ currentGame()!.maxRange }}</li>
+                  } @else {
+                    <li>Start a new game and choose your difficulty</li>
+                  }
+                  <li>Get hints: "Too High" or "Too Low"</li>
+                  <li>Try to win in the fewest attempts</li>
+                  <li>Your best scores are tracked!</li>
+                </ul>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

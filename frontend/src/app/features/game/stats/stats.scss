@@ -1,0 +1,197 @@
+// Stats component specific styles
+// Global styles are now in styles.scss
+
+.stats-header-card {
+  margin-bottom: var(--spacing-md);
+  
+  @media (min-width: 768px) {
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .mat-mdc-card-actions {
+    padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+  }
+}
+
+.stats-card,
+.best-scores-card {
+  margin-bottom: var(--spacing-lg);
+  
+  .mat-mdc-card-header {
+    .mat-mdc-card-title {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      color: #667eea;
+    }
+  }
+}
+
+.stats-grid {
+  margin-bottom: 1rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1rem;
+  background: #f8f9ff;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+  
+  .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  
+  .stat-label {
+    color: #666;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.average-stats {
+  display: flex;
+  justify-content: center;
+}
+
+.avg-item {
+  text-align: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 10px;
+  
+  .avg-value {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .avg-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+}
+
+.best-scores-list {
+  .score-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  
+  .difficulty-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    color: white;
+    font-weight: 500;
+    
+    &.easy {
+      background: linear-gradient(135deg, #56CCF2, #2F80ED);
+    }
+    
+    &.medium {
+      background: linear-gradient(135deg, #FFB347, #FF8C00);
+    }
+    
+    &.hard {
+      background: linear-gradient(135deg, #FF6B6B, #EE5A52);
+    }
+  }
+  
+  .score-value {
+    text-align: right;
+    
+    .score {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #667eea;
+    }
+    
+    .score-label {
+      font-size: 0.8rem;
+      color: #666;
+      margin-left: 0.25rem;
+    }
+    
+    .no-score {
+      color: #999;
+      font-style: italic;
+    }
+  }
+}
+
+.motivation-card {
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  
+  .motivation-content {
+    text-align: center;
+    padding: 1rem 0;
+  }
+  
+  .motivation-message {
+    h5 {
+      margin-bottom: 1rem;
+      font-weight: 300;
+    }
+    
+    p {
+      margin: 0;
+      opacity: 0.9;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .stats-header-card mat-card-actions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+  
+  .stat-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .best-scores-list .score-item {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}

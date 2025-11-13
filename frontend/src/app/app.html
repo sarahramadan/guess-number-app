@@ -1,0 +1,40 @@
+<!-- Main App Container -->
+<div class="app-container">
+  <!-- Navigation Header - Only show on non-auth routes -->
+  @if (!isAuthRoute()) {
+    <nav class="navbar navbar-expand-lg app-navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/game">
+          🎲 Guess Number Game
+        </a>
+        
+        <!-- Navigation links -->
+        <div class="navbar-nav ms-auto d-flex align-items-center">
+          <a class="nav-link" routerLink="/game/play" routerLinkActive="active">🎮 Play</a>
+          <a class="nav-link" routerLink="/game/stats" routerLinkActive="active">📊 Stats</a>
+          <a class="nav-link" routerLink="/game/history" routerLinkActive="active">📜 History</a>
+          
+          <!-- User Menu -->
+          @if (getCurrentUser()()) {
+            <div class="nav-item dropdown ms-3">
+              <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-btn">
+                👤 {{ getCurrentUser()()!.displayName }}
+                <span class="ms-1">▼</span>
+              </button>
+              <mat-menu #userMenu="matMenu">
+                <button mat-menu-item (click)="logout()">
+                  🚪 Logout
+                </button>
+              </mat-menu>
+            </div>
+          }
+        </div>
+      </div>
+    </nav>
+  }
+
+  <!-- Main Content -->
+  <main class="main-content fade-in">
+    <router-outlet />
+  </main>
+</div>

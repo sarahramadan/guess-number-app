@@ -1,0 +1,70 @@
+<div class="auth-page-container slide-up">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 col-xxl-5">
+        <mat-card class="app-card auth-card">
+          <mat-card-header class="text-center">
+            <mat-card-title>
+              <h2>Welcome Back!</h2>
+              <p class="text-muted">Sign in to continue playing</p>
+            </mat-card-title>
+          </mat-card-header>
+
+        <mat-card-content class="app-form">
+          <app-error-display 
+            [errorMessage]="error()"
+            [validationErrors]="validationErrors()">
+          </app-error-display>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-section">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Email</mat-label>
+                <input matInput 
+                       type="email" 
+                       formControlName="email"
+                       placeholder="Enter your email">
+                @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                  <mat-error>{{ getErrorMessage('email') }}</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <div class="form-section">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Password</mat-label>
+                <input matInput 
+                       type="password"
+                       formControlName="password"
+                       placeholder="Enter your password">
+                @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+                  <mat-error>{{ getErrorMessage('password') }}</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <div class="form-actions">
+              <button mat-raised-button 
+                      color="primary"
+                      type="submit"
+                      class="app-button button-primary w-100"
+                      [disabled]="loginForm.invalid || loading()">
+                @if (loading()) {
+                  <mat-spinner diameter="20" class="me-2"></mat-spinner>
+                }
+                Sign In
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+
+        <mat-card-actions class="text-center">
+          <p class="mb-0">
+            Don't have an account? 
+            <a routerLink="/auth/register" class="text-primary fw-bold">Sign up here</a>
+          </p>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

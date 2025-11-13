@@ -1,0 +1,110 @@
+<div class="auth-page-container slide-up">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 col-xxl-5">
+        <mat-card class="app-card auth-card">
+          <mat-card-header class="text-center">
+            <mat-card-title>
+              <h2>Join the Game!</h2>
+              <p class="text-muted">Create your account to start guessing</p>
+            </mat-card-title>
+          </mat-card-header>
+
+        <mat-card-content class="app-form">
+          <app-error-display 
+            [errorMessage]="error()"
+            [validationErrors]="validationErrors()">
+          </app-error-display>
+
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="form-section row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>First Name</mat-label>
+                  <input matInput 
+                         type="text" 
+                         formControlName="firstName"
+                         placeholder="Enter your first name">
+                  @if (registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched) {
+                    <mat-error>{{ getErrorMessage('firstName') }}</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Last Name</mat-label>
+                  <input matInput 
+                         type="text" 
+                         formControlName="lastName"
+                         placeholder="Enter your last name">
+                  @if (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched) {
+                    <mat-error>{{ getErrorMessage('lastName') }}</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Email</mat-label>
+                <input matInput 
+                       type="email" 
+                       formControlName="email"
+                       placeholder="Enter your email">
+                @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+                  <mat-error>{{ getErrorMessage('email') }}</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <div class="form-section">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Password</mat-label>
+                <input matInput 
+                       type="password"
+                       formControlName="password"
+                       placeholder="Create a password">
+                @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+                  <mat-error>{{ getErrorMessage('password') }}</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <div class="form-section">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput 
+                       type="password"
+                       formControlName="confirmPassword"
+                       placeholder="Confirm your password">
+                @if (registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched) {
+                  <mat-error>{{ getErrorMessage('confirmPassword') }}</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <div class="form-actions">
+              <button mat-raised-button 
+                      color="primary"
+                      type="submit"
+                      class="app-button button-primary w-100"
+                      [disabled]="registerForm.invalid || loading()">
+                @if (loading()) {
+                  <mat-spinner diameter="20" class="me-2"></mat-spinner>
+                }
+                Create Account
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+
+        <mat-card-actions class="text-center">
+          <p class="mb-0">
+            Already have an account? 
+            <a routerLink="/auth/login" class="text-primary fw-bold">Sign in here</a>
+          </p>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
