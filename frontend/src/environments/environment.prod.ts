@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://localhost:7208'  // Update this for production
+  apiUrl: '/api'  // Relative URL - served from same origin
 };

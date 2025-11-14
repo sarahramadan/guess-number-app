@@ -8,13 +8,13 @@ A robust, enterprise-grade REST API for the "Guess the Number" game built with .
 - **Number Guessing Game** - Interactive gameplay with difficulty levels
 - **User Authentication** - JWT-based authentication and authorization
 - **Game Sessions** - Track game attempts and scores
-- **Leaderboard** - Real-time user rankings and statistics
+- **Leaderboard** - Real-time user rankings and statistics  (planned)
 
 ### Enterprise Features
 - **API Versioning** - Multiple API versions with backward compatibility
 - **Global Exception Handling** - Comprehensive error handling middleware
 - **Health Checks** - Database and application health monitoring
-- **Background Services** - Automated leaderboard updates
+- **Background Services** - Automated leaderboard updates  (planned)
 - **Security Middleware** - CORS, rate limiting, and security headers
 - **Configuration Validation** - Startup configuration validation
 - **Swagger Documentation** - Interactive API documentation
@@ -104,7 +104,7 @@ The API includes comprehensive Swagger documentation available at:
 - `GET /api/v1/game/{id}` - Get specific game session
 
 #### Leaderboard
-- `GET /api/v1/leaderboard` - Get top scores
+- `GET /api/v1/leaderboard` - Get top scores  (planned)
 
 #### Health Monitoring
 - `GET /health` - Basic health check

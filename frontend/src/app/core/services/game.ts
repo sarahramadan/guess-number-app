@@ -21,7 +21,7 @@ import { AuthService } from './auth';
   providedIn: 'root'
 })
 export class GameService {
-  private readonly apiUrl = `${environment.apiUrl}/api/v1.0/game`;
+  private readonly apiUrl = `${environment.apiUrl}/v1.0/game`;
   
   // Current game state signals
   public currentGame = signal<GameSession | null>(null);

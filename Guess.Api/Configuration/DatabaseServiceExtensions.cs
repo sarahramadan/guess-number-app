@@ -85,16 +85,12 @@ public static class DatabaseServiceExtensions
         {
             logger.LogError(ex, "Failed to initialize database. Application will continue without database connection.");
             
-            // In development, we want to continue running even if database is not available
-            if (environment.IsDevelopment())
-            {
-                logger.LogWarning("Running in development mode without database connection");
-            }
-            else
-            {
-                // In production, database is critical - re-throw the exception
-                throw;
-            }
+            // Log warning but continue running - graceful degradation
+            logger.LogWarning("Database initialization failed. The application will run with limited functionality.");
+            logger.LogInformation("Some features requiring database access may not be available.");
+            
+            // Don't throw in any environment - allow graceful degradation
+            // The application can still serve static files and show proper error messages
         }
 
         return app;

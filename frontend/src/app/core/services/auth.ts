@@ -17,7 +17,7 @@ export class AuthService {
   private readonly TOKEN_KEY = 'guess_game_token';
   private readonly REFRESH_TOKEN_KEY = 'guess_game_refresh_token';
   private readonly USER_KEY = 'guess_game_user';
-  private readonly apiUrl = `${environment.apiUrl}/api/v1.0/Auth`;
+  private readonly apiUrl = `${environment.apiUrl}/v1.0/Auth`;
 
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();

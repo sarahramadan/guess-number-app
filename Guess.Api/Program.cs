@@ -45,6 +45,14 @@ app.UseApplicationPipeline(app.Environment);
 // Add health check endpoints
 app.UseHealthCheckEndpoints();
 
+// ===== STATIC FILES CONFIGURATION FOR SPA =====
+// Serve static files from wwwroot (Angular build output)
+app.UseDefaultFiles(); // Serves index.html as default
+app.UseStaticFiles();
+
+// SPA fallback - redirect all non-API routes to index.html for Angular routing
+app.MapFallbackToFile("/index.html");
+
 // Initialize database
 await app.InitializeDatabaseAsync();
 
